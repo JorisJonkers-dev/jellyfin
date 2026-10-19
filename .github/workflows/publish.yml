@@ -26,7 +26,7 @@ permissions: {}
 
 jobs:
   publish-jellyfin:
-    uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@bdc8ec412fdd619b57b8b8f2855cc7d3c5f76bad # v0.29.0
+    uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@b8fc412c81b66a1f09686d045417144f67c1c378 # v0.30.0
     with:
       image-name: jellyfin
       version: ${{ inputs.tag || github.ref_name }}
@@ -96,7 +96,7 @@ jobs:
           cat images.lock.yml >> "$GITHUB_STEP_SUMMARY"
 
       - name: upload-image-lock
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: images-lock-${{ github.run_id }}
           path: images.lock.yml
@@ -108,7 +108,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    uses: JorisJonkers-dev/github-workflows/.github/workflows/publish-fragment.yml@bdc8ec412fdd619b57b8b8f2855cc7d3c5f76bad # v0.29.0
+    uses: JorisJonkers-dev/github-workflows/.github/workflows/publish-fragment.yml@b8fc412c81b66a1f09686d045417144f67c1c378 # v0.30.0
     with:
       project-file: deploy/jellyfin.project.yml
       version: ${{ inputs.tag || github.ref_name }}
