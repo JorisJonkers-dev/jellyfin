@@ -32,7 +32,7 @@ jobs:
       - name: Lint GitHub Actions workflows
         run: '"${{ steps.actionlint.outputs.executable }}" -color .github/workflows/*.yml'
 
-  # Both images as the estate runs them: uid 1000, a read-only root, every capability dropped,
+  # The image as the estate runs it: uid 1000, a read-only root, every capability dropped,
   # and only the paths the Project mounts writable.
   smoke:
     runs-on: ubuntu-latest
@@ -40,13 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Build the images
+      - name: Build the image
         run: |
           docker build -t jellyfin:ci jellyfin
-          docker build -t jellyseerr:ci jellyseerr
 
-      - name: Start every image under the restricted posture
-        run: scripts/smoke-test.sh jellyfin:ci jellyseerr:ci
+      - name: Start the image under the restricted posture
+        run: scripts/smoke-test.sh jellyfin:ci
 
   pipeline-complete:
     name: Pipeline Complete

@@ -1,4 +1,30 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>JorisJonkers-dev/renovate-config"]
+  "extends": ["github>JorisJonkers-dev/renovate-config"],
+  "packageRules": [
+    {
+      "description": "A jellyfin minor or patch release merges once Pipeline Complete passes, and release.yml publishes it as this repository's version.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "semanticCommitType": "feat",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "A jellyfin major release waits for approval on the Dependency Dashboard.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "A digest moved under the same tag is no new version, so it cannot be released.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    }
+  ]
 }
