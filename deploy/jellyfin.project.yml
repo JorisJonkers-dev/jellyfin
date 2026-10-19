@@ -1,5 +1,5 @@
-# deploy-kit Project Intent for jellyfin and jellyseerr, each built by this repository to run as
-# deploy (1000:1000) under a read-only root filesystem.
+# deploy-kit Project Intent for jellyfin, built by this repository to run as deploy (1000:1000)
+# under a read-only root filesystem.
 #
 # jellyfin reads the media library's folders at the paths its database names and transcodes on
 # the T1000. Its config holds the database, users and watch history, which the platform's
@@ -50,27 +50,3 @@ applications:
             size: 30Gi
             durability: reconstructible # transcodes and image resizes
 
-  - id: jellyseerr
-    processes:
-      - name: jellyseerr
-        lifecycle: application
-        image: jellyseerr
-        runtime: none
-        engine: files # keys the nightly copy of its config
-        provides:
-          http: 5055
-        placement:
-          memory: 768Mi
-          cpu: 200m
-          disk: { media: [nvme, ssd] } # its SQLite database stays off the SD cards
-        writablePaths: [/tmp]
-        probes:
-          readiness: { path: /api/v1/settings/public, port: 5055 }
-          liveness: { path: /api/v1/settings/public, port: 5055 }
-        startupBudget: 120s
-        cutover: interrupted # one pod on its config's ReadWriteOnce claim
-        volumes:
-          - claim: jellyseerr-config
-            mountAt: /app/config
-            size: 2Gi
-            durability: recoverable # its SQLite database: requests, users and settings

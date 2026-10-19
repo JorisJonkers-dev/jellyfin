@@ -28,7 +28,10 @@ this file stays a pointer. Add repo-specific guidance below.
 
 ## This repository
 
-Both images must keep running as 1000:1000 (`deploy`, which owns the media library and these
-configs) under a read-only root filesystem: deploy-kit refuses any Process that cannot
-(`E_HARDENING_UNMET`). Keep jellyfin's media mounts at the paths its database names
-(`/media/Series`, `/media/Films`). Run `scripts/smoke-test.sh` after any change to a `Dockerfile`.
+The image must keep running as 1000:1000 (`deploy`, which owns the media library and this config)
+under a read-only root filesystem: deploy-kit refuses any Process that cannot (`E_HARDENING_UNMET`).
+Keep jellyfin's media mounts at the paths its database names (`/media/Series`, `/media/Films`). Run
+`scripts/smoke-test.sh` after any change to the `Dockerfile`.
+
+The version is jellyfin's own, read from the `FROM` tag: there is no release-please, and a change
+that keeps the `FROM` tag is released with the next jellyfin version.

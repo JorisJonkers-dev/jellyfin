@@ -1,24 +1,21 @@
 #!/usr/bin/env bash
-# Starts both images restricted (uid 1000, a read-only root, every capability dropped), with only
-# the paths the Project mounts writable, and waits until each serves.
-# Usage: scripts/smoke-test.sh <jellyfin-image> <jellyseerr-image>
+# Starts the image restricted (uid 1000, a read-only root, every capability dropped), with only the
+# paths the Project mounts writable, and waits until it serves.
+# Usage: scripts/smoke-test.sh <jellyfin-image>
 set -euo pipefail
-apps=("jellyfin $1 8096 /health" "jellyseerr $2 5055 /api/v1/settings/public")
+apps=("jellyfin $1 8096 /health")
 owned='uid=1000,gid=1000'
 
-cleanup() { docker rm -f smoke-jellyfin smoke-jellyseerr >/dev/null 2>&1 || true; }
+cleanup() { docker rm -f smoke-jellyfin >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 cleanup
 
 docker run -d --name smoke-jellyfin --read-only --cap-drop ALL \
   --tmpfs "/tmp:$owned,mode=1777" --tmpfs "/config:$owned" --tmpfs "/cache:$owned" \
   --tmpfs "/media/Series:$owned" --tmpfs "/media/Films:$owned" "$1" >/dev/null
-docker run -d --name smoke-jellyseerr --read-only --cap-drop ALL \
-  --tmpfs "/tmp:$owned,mode=1777" --tmpfs "/app/config:$owned" "$2" >/dev/null
 
-# jellyfin carries curl, seerr's Alpine base only busybox wget.
 status() {
-  docker exec "smoke-$1" sh -c "if command -v curl >/dev/null; then curl -s -o /dev/null -w '%{http_code}' 'http://127.0.0.1:$2$3'; else wget -q -O /dev/null 'http://127.0.0.1:$2$3' && echo 200; fi" 2>/dev/null || true
+  docker exec "smoke-$1" curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$2$3" 2>/dev/null || true
 }
 
 for spec in "${apps[@]}"; do

@@ -1,7 +1,8 @@
-# Tag-triggered publish: both images, then the Intent Fragment the estate composes.
+# Publish: the image, then the Intent Fragment the estate composes. release.yml calls it with the
+# version it just released; a tag pushed by hand or a dispatch starts it too.
 #
 # push of a v*.*.* tag (authored by release.yml via the App token) drives:
-#   publish-jellyfin + publish-jellyseerr -> resolve-image-lock -> fragment
+#   publish-jellyfin -> resolve-image-lock -> fragment
 name: Publish
 
 on:
@@ -9,6 +10,12 @@ on:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish (vX.Y.Z)
+        required: true
+        type: string
+  workflow_call:
     inputs:
       tag:
         description: Release tag to publish (vX.Y.Z)
@@ -22,21 +29,9 @@ jobs:
     uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@bdc8ec412fdd619b57b8b8f2855cc7d3c5f76bad # v0.29.0
     with:
       image-name: jellyfin
-      version: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+      version: ${{ inputs.tag || github.ref_name }}
       context: jellyfin
       dockerfile: jellyfin/Dockerfile
-      platforms: linux/amd64,linux/arm64
-    permissions:
-      contents: read
-      packages: write
-
-  publish-jellyseerr:
-    uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@bdc8ec412fdd619b57b8b8f2855cc7d3c5f76bad # v0.29.0
-    with:
-      image-name: jellyseerr
-      version: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
-      context: jellyseerr
-      dockerfile: jellyseerr/Dockerfile
       platforms: linux/amd64,linux/arm64
     permissions:
       contents: read
@@ -45,7 +40,7 @@ jobs:
   # The images lock: each pushed digest, under the alias the project file names, with the
   # user the image runs as, read from what was pushed.
   resolve-image-lock:
-    needs: [publish-jellyfin, publish-jellyseerr]
+    needs: [publish-jellyfin]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -57,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+          ref: ${{ inputs.tag && format('refs/tags/{0}', inputs.tag) || github.ref }}
 
       # The commit the release was cut from, so the fragment names it however publish was started.
       - name: source-commit
@@ -67,7 +62,7 @@ jobs:
       - name: lock-images
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           set -euo pipefail
           printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
@@ -78,7 +73,7 @@ jobs:
             echo 'name: jellyfin'
             echo 'images:'
           } > images.lock.yml
-          for alias in jellyfin jellyseerr; do
+          for alias in jellyfin; do
             image="ghcr.io/jorisjonkers-dev/${alias}"
             digest="$(docker buildx imagetools inspect "${image}:${TAG}" --format '{{json .Manifest}}' | jq -r '.digest')"
             case "$digest" in
@@ -116,7 +111,7 @@ jobs:
     uses: JorisJonkers-dev/github-workflows/.github/workflows/publish-fragment.yml@bdc8ec412fdd619b57b8b8f2855cc7d3c5f76bad # v0.29.0
     with:
       project-file: deploy/jellyfin.project.yml
-      version: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+      version: ${{ inputs.tag || github.ref_name }}
       ref: ${{ needs.resolve-image-lock.outputs.source-sha }}
       validate-with: deploy/env
       images-lock-artifact: ${{ needs.resolve-image-lock.outputs.images-lock-artifact }}
