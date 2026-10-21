@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.12.1](https://github.com/JorisJonkers-dev/jellyfin/compare/v10.12.0...v10.12.1) (2026-10-21)
+
+
+### Miscellaneous Chores
+
+* Renovate alone updates dependencies, so Dependabot's fallback goes ([#13](https://github.com/JorisJonkers-dev/jellyfin/issues/13)) ([4810b06](https://github.com/JorisJonkers-dev/jellyfin/commit/4810b062562ad42ad0c71f03e730c0dd1ea2c5e5))
+
 ## [10.12.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v10.11.11...v10.12.0) (2026-10-21)
 
 
