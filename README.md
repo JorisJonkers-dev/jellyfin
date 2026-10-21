@@ -12,13 +12,15 @@ runs as any user.
 
 ## Versions
 
-This repository's version is jellyfin's: release `v10.11.11` runs jellyfin
-10.11.11. Renovate opens a pull request for each jellyfin release. A minor or
-patch release merges itself once `Pipeline Complete` passes; a major release
-waits for approval on the Dependency Dashboard. When the `FROM` tag changes on
-`main`, `release.yml` releases that version and publishes the image and the
-Intent Fragment. A change that keeps the `FROM` tag ships with the next
-jellyfin release.
+This repository releases its own semver, continuing from `v10.11.11`, the last
+tag named after jellyfin. The jellyfin version the image ships is recorded
+separately, as the images lock's `version` (JorisJonkers-dev/workspace#140), so
+a fix to our configuration no longer waits for a jellyfin release. Renovate
+opens a pull request for each update, as a `fix`, so release-please releases
+it. A minor or patch update merges itself once `Pipeline Complete` passes; a
+major release waits for approval on the Dependency Dashboard. Merging release-
+please's pull request tags `vX.Y.Z`, which publishes the image and the Intent
+Fragment.
 
 ## Running it
 
