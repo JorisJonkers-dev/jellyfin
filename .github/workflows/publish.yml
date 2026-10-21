@@ -69,7 +69,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    uses: JorisJonkers-dev/github-workflows/.github/workflows/publish-fragment.yml@d6105981bb2d8e2caa879c3a62d9fd2ef86c216c # v0.31.0
+    uses: JorisJonkers-dev/github-workflows/.github/workflows/publish-fragment.yml@870429202376dac2e9434746941c54f9a2be605f # v0.33.0
     with:
       project-file: deploy/jellyfin.project.yml
       version: ${{ inputs.tag || github.ref_name }}
