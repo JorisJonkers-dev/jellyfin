@@ -3,7 +3,12 @@
   "extends": ["github>JorisJonkers-dev/renovate-config"],
   "packageRules": [
     {
-      "description": "A jellyfin minor or patch release merges once Pipeline Complete passes, and release.yml publishes it as this repository's version.",
+      "description": "An upstream image bump is a fix, so release-please releases it, and the images lock records the new upstream version (JorisJonkers-dev/workspace#140).",
+      "matchManagers": ["dockerfile"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "description": "A jellyfin minor or patch release merges once Pipeline Complete passes, and release-please releases it.",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["jellyfin/jellyfin"],
       "matchUpdateTypes": ["minor", "patch"],
