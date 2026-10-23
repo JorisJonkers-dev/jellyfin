@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:10.11.11@sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db
+FROM jellyfin/jellyfin:12.3@sha256:2038fe038ab3876a80f6e7b7e0aef6607b032c7dc0c9b3ad3296d0b2eba3bbb5
 
 # No setuid or setgid binary: the estate's pods do not yet forbid privilege escalation.
 RUN find / -xdev -perm /6000 -type f -exec chmod ug-s {} +
