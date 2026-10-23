@@ -1,5 +1,16 @@
 # Changelog
 
+## [11.0.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v10.12.1...v11.0.0) (2026-10-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* the first start on 12.3 migrates the database one way; take a fresh jellyfin-config backup before this rolls out.
+
+### Features
+
+* run jellyfin 12.3 ([#15](https://github.com/JorisJonkers-dev/jellyfin/issues/15)) ([b66c19b](https://github.com/JorisJonkers-dev/jellyfin/commit/b66c19b9647610616d40aabaa8a655dc137a0626))
+
 ## [10.12.1](https://github.com/JorisJonkers-dev/jellyfin/compare/v10.12.0...v10.12.1) (2026-10-21)
 
 
