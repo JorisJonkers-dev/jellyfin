@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.0.0...v11.1.0) (2026-10-26)
+
+
+### Features
+
+* write each item's .nfo metadata into the media library ([#20](https://github.com/JorisJonkers-dev/jellyfin/issues/20)) ([797495b](https://github.com/JorisJonkers-dev/jellyfin/commit/797495b04161ba9274af49a2e02f9ab888231287))
+
 ## [11.0.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v10.12.1...v11.0.0) (2026-10-23)
 
 
