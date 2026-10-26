@@ -24,8 +24,9 @@ applications:
         provides:
           http: 8096
         libraries:
-          - { library: media, mountAt: /media/Series, subPath: Series, access: read }
-          - { library: media, mountAt: /media/Films, subPath: Films, access: read }
+          # Written: Jellyfin saves each item's .nfo metadata beside the media (#19).
+          - { library: media, mountAt: /media/Series, subPath: Series, access: write }
+          - { library: media, mountAt: /media/Films, subPath: Films, access: write }
         placement:
           memory: 4Gi
           cpu: 1000m
