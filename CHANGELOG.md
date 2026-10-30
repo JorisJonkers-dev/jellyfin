@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.2.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.1.0...v11.2.0) (2026-10-30)
+
+
+### Features
+
+* declare its LAN exposure, so the estate edge renders their routes ([#26](https://github.com/JorisJonkers-dev/jellyfin/issues/26)) ([62e8af3](https://github.com/JorisJonkers-dev/jellyfin/commit/62e8af3acccc33266c4189c02dfe6c8e8eed495c))
+
 ## [11.1.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.0.0...v11.1.0) (2026-10-26)
 
 
