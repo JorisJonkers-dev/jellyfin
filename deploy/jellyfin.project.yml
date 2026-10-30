@@ -15,6 +15,16 @@ owner: joris
 
 applications:
   - id: jellyfin
+    exposure:
+      # On the LAN, with no sign-in: jellyfin signs its own users in. Its public
+      # record (grey-cloud, at the home address) reaches this same edge through
+      # the router, so it declares no public exposure, and external-dns, which
+      # never deletes a record, keeps it (JorisJonkers-dev/deploy-kit#711).
+      - name: lan
+        host: jellyfin.jorisjonkers.dev
+        audience: lan
+        routes:
+          - { path: /, match: prefix, process: jellyfin, surface: http }
     processes:
       - name: jellyfin
         lifecycle: application
