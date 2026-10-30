@@ -20,7 +20,7 @@ permissions: {}
 
 jobs:
   publish-jellyfin:
-    uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@f2180a482b63756affde537233881fa12e65df70 # v0.35.0
+    uses: JorisJonkers-dev/github-workflows/.github/workflows/container-publish.yml@f3bb6cabaa6ee33694f8632ce273a4e703d60780 # v0.38.0
     with:
       image-name: jellyfin
       version: ${{ inputs.tag || github.ref_name }}
@@ -56,7 +56,7 @@ jobs:
       # The shared step also reads back the software version each image ships.
       - name: lock-images
         id: lock
-        uses: JorisJonkers-dev/github-workflows/actions/resolve-image-lock@f2180a482b63756affde537233881fa12e65df70 # v0.35.0
+        uses: JorisJonkers-dev/github-workflows/actions/resolve-image-lock@f3bb6cabaa6ee33694f8632ce273a4e703d60780 # v0.38.0
         with:
           name: jellyfin
           images: |
