@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.3.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.2.0...v11.3.0) (2026-11-03)
+
+
+### Features
+
+* **deps:** update jellyfin/jellyfin docker tag to v12.4 ([#30](https://github.com/JorisJonkers-dev/jellyfin/issues/30)) ([08ebbb0](https://github.com/JorisJonkers-dev/jellyfin/commit/08ebbb0a8a108d2b9b26ee04ddd7b52724934c36))
+
 ## [11.2.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.1.0...v11.2.0) (2026-10-30)
 
 
