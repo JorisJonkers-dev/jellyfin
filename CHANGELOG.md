@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.3.1](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.3.0...v11.3.1) (2026-11-12)
+
+
+### Bug Fixes
+
+* **hygiene:** never cancel a run of the required hygiene checks ([#39](https://github.com/JorisJonkers-dev/jellyfin/issues/39)) ([e2447ab](https://github.com/JorisJonkers-dev/jellyfin/commit/e2447ab3388ddefa54d69b1b7b08f6063404920a))
+
 ## [11.3.0](https://github.com/JorisJonkers-dev/jellyfin/compare/v11.2.0...v11.3.0) (2026-11-10)
 
 
